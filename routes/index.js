@@ -7,11 +7,7 @@ router.get('/', (req, res) => {
 
 router.get('/mail/send', (req, res) => {
   const info = mailer.sendMail({ to: process.env.MAIL_TO });
-  if (info) {
-    res.send(`Message sent: ${info.messageId}`)
-  } else {
-    res.send('No message sent!')
-  }
+  res.send(info);
 });
 
 module.exports = router;

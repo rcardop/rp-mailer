@@ -10,7 +10,6 @@ class Mailer {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
-      tls: { cipher: 'SSLv3' },
     });
 
     this.transporter.verify((err, success) => {
@@ -32,10 +31,12 @@ class Mailer {
   sendMail(options) {
     this.transporter.sendMail({ ...this.mailOptions, ...options }, (err, info) => {
       if (err) {
-        console.log(err);
-        return false;
+        return { status: 500 };
       }
-      return info;
+      return {
+        id: info.messageId,
+        preview: nodemailer.getTestMessageUrl(info),
+      };
     });
   }
 }
