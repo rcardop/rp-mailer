@@ -5,11 +5,12 @@ class Mailer {
     this.transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       port: process.env.MAIL_PORT,
-      secureConnection: process.env.MAIL_SECURE,
+      secureConnection: false,
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
+      tls: { cipher: 'SSLv3' },
     });
 
     this.transporter.verify((err, success) => {
