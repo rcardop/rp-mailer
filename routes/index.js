@@ -6,8 +6,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/mail/send', (req, res) => {
-  const info = mailer.sendMail({ to: process.env.MAIL_TO });
-  res.send(info);
+  mailer.sendMail({ to: process.env.MAIL_TO }, (info) => {
+    res.send(info);
+  });
 });
 
 module.exports = router;

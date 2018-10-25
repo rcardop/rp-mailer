@@ -28,15 +28,18 @@ class Mailer {
     };
   }
 
-  sendMail(options) {
+  async sendMail(options, cb) {
     this.transporter.sendMail({ ...this.mailOptions, ...options }, (err, info) => {
+      let response;
       if (err) {
-        return { status: 500 };
+        response = { status: 500 };
+      } else {
+        response = {
+          id: info.messageId,
+          preview: nodemailer.getTestMessageUrl(info),
+        };
       }
-      return {
-        id: info.messageId,
-        preview: nodemailer.getTestMessageUrl(info),
-      };
+      cb(response);
     });
   }
 }
